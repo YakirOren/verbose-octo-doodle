@@ -1,14 +1,48 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma-rtl.min.css">
     <script src="assets/wasm_exec.js"></script>
     <script>
-        const go = new Go();
-        WebAssembly.instantiateStreaming(fetch("assets/go.wasm"), go.importObject).then((result) => {
-            go.run(result.instance);
+        const wasm = new Go();
+        WebAssembly.instantiateStreaming(fetch("assets/core.wasm"), wasm.importObject).then((result) => {
+            wasm.run(result.instance);
         });
     </script>
     <title>Title</title>
 </head>
-<body></body>
+<body>
+
+<nav class="level">
+    <p class="level-item has-text-centered">
+        <a class="title is-4">Convert Describe file to playbook</a>
+
+    </p>
+</nav>
+
+
+<div class="columns is-vcentered">
+    <div class="column">
+        <label for="describeInput"></label>
+        <textarea id="describeInput" class="textarea is-normal has-fixed-size" rows="20" placeholder="Input JSON" name="describeInput"
+        ></textarea>
+    </div>
+    <div class="column is-narrow">
+        <input id="button" type="submit" class="button is-info" name="button" value="Convert"
+               onclick="process(describeInput.value)"/>
+    </div>
+    <div class="column ">
+        <label for="yamlOutput"></label>
+        <textarea id="yamlOutput" class="textarea is-normal has-fixed-size" rows="20" placeholder="Output playbook yaml"
+                  name="yamlOutput"></textarea>
+    </div>
+</div>
+
+</body>
+<script>
+    let process = function (input) {
+        yamlOutput.value = ToPlaybook(input)
+    }
+</script>
 </html>
