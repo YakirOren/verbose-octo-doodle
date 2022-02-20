@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"hellowasm/files"
+	"log"
+	"sync"
 )
 
 const (
@@ -48,9 +50,18 @@ func ToPlaybook(input string) (string, error) {
 }
 
 func ToPlaybookFromURL(url string) (string, error) {
-	// download file
-	result, err := files.DownloadFileFromUrl(url)
+	var wg sync.WaitGroup
+	var result string
+	var err error
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		// download file
+		result, err = files.DownloadFileFromUrl(url)
+	}()
 	if err != nil {
+		log.Fatal(err)
 		return "", err
 	}
 

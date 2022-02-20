@@ -25,12 +25,21 @@
 <div class="columns is-vcentered">
     <div class="column">
         <label for="describeInput"></label>
-        <textarea id="describeInput" class="textarea is-normal has-fixed-size" rows="20" placeholder="Input JSON" name="describeInput"
+        <textarea id="describeInput" class="textarea is-normal has-fixed-size" rows="20" placeholder="Input JSON"
+                  name="describeInput"
         ></textarea>
     </div>
     <div class="column is-narrow">
-        <input id="button" type="submit" class="button is-info" name="button" value="Convert"
-               onclick="process(describeInput.value)"/>
+        <div class="column">
+            <input id="URL_Button" type="submit" class="button is-info" name="button" value="From URL"
+                   onclick="fromURL(describeInput.value)"/>
+
+        </div>
+        <div class="column">
+            <input id="button" type="submit" class="button is-info" name="button" value="Convert"
+                   onclick="process(describeInput.value)"/>
+        </div>
+
     </div>
     <div class="column ">
         <label for="yamlOutput"></label>
@@ -44,5 +53,14 @@
     let process = function (input) {
         yamlOutput.value = ToPlaybook(input)
     }
+
+    let fromURL = function () {
+        let url = prompt("Enter URL to a describe JSON", "");
+        if (url != null && url !== "") {
+            console.log(url)
+            yamlOutput.value = ToPlaybookFromURL(url)
+        }
+    }
+
 </script>
 </html>
